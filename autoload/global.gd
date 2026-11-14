@@ -62,6 +62,14 @@ var updatePusherNode = null
 
 var rand = RandomNumberGenerator.new()
 
+
+func _enter_tree() -> void:
+	const WINDOW_MINIMUM_SIZE: int = 128
+	const WINDOW_DEFAULT_SIZE: int = 512 + 32
+	DisplayServer.window_set_min_size.call_deferred(Vector2i(WINDOW_MINIMUM_SIZE, WINDOW_MINIMUM_SIZE))
+	get_window().set_deferred("size", Vector2i(WINDOW_DEFAULT_SIZE, WINDOW_DEFAULT_SIZE))
+
+
 func _ready():
 	spectrum = AudioServer.get_bus_effect_instance(1, 1)
 	
