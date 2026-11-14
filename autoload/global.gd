@@ -157,17 +157,24 @@ func _handle_inputevent_activity_detection() -> void:
 	
 	var current_timestamp := Time.get_ticks_msec()
 	
-	if _prev_input_tick != _current_input_tick:
-		last_input_timestamp = current_timestamp
+	var typing_this_frame: bool = _prev_input_tick != _current_input_tick
 	
-	var new_typing: bool = (current_timestamp - last_input_timestamp < input_finished_threshold_ms)
-	
-	if typing and not new_typing:
+	# Handle delayed typing stop. We must wait input_finished_threshold_ms before stopping.
+	if typing \
+	and (not typing_this_frame) \
+	and (current_timestamp - last_input_timestamp > input_finished_threshold_ms):
 		typing = false
 		stopTyping.emit()
-	elif new_typing and not typing:
+	
+	# Handle delayed typing start. We must have two inputs within input_finished_threshold_ms to start.
+	if (not typing) \
+	and typing_this_frame \
+	and (current_timestamp - last_input_timestamp < input_finished_threshold_ms):
 		typing = true
 		startTyping.emit()
+	
+	if _prev_input_tick != _current_input_tick:
+		last_input_timestamp = current_timestamp
 
 
 func _process(delta):
