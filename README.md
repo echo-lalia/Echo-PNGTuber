@@ -1,2 +1,3 @@
-This is a Godot 4.1.2 stable project. Not sure if everything will work in future version.
-This code is very bad so be warned this is a SLOP project
+This is a fork of kaiakairos' Pngtuber-Plus, modified for my own purposes.
+
+This does have some added features and fixes for the program, but since I'm only really making this for my use, I'm not sure how useful the project will be for others.
